@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:example/demo/action_state.dart';
+import 'package:example/demo/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mp_chart/mp/chart/line_chart.dart';
@@ -13,8 +15,6 @@ import 'package:mp_chart/mp/core/entry/entry.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/highlight/highlight.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:example/demo/action_state.dart';
-import 'package:example/demo/util.dart';
 
 class EvenMoreDynamic extends StatefulWidget {
   @override
@@ -57,7 +57,6 @@ class EvenMoreDynamicState extends ActionState<EvenMoreDynamic>
           item('Add Data Set', 'D'),
           item('Remove Data Set', 'E'),
           item('Clear chart', 'F'),
-          item('Save to Gallery', 'G'),
         ];
   }
 
@@ -95,11 +94,6 @@ class EvenMoreDynamicState extends ActionState<EvenMoreDynamic>
       case 'F':
         controller.data = null;
         controller.state.setStateIfNotDispose();
-        break;
-      case 'G':
-        captureImg(() {
-          controller.state.capture();
-        });
         break;
     }
   }
@@ -150,7 +144,6 @@ class EvenMoreDynamicState extends ActionState<EvenMoreDynamic>
         (random.nextDouble() * data.getDataSetCount()).toInt();
     ILineDataSet randomSet = data.getDataSetByIndex(randomDataSetIndex);
     double value = (random.nextDouble() * 50) + 50 * (randomDataSetIndex + 1);
-
 
     //for test ChartData's addEntryByIndex
 //    var x =  10.0 - 0.5 * randomSet.getEntryCount().toDouble();

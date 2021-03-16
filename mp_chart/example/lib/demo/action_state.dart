@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'dart:math';
 
+import 'package:example/demo/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mp_chart/mp/controller/bar_chart_controller.dart';
@@ -26,8 +26,6 @@ import 'package:mp_chart/mp/core/data_set/scatter_data_set.dart';
 import 'package:mp_chart/mp/core/enums/axis_dependency.dart';
 import 'package:mp_chart/mp/core/enums/mode.dart';
 import 'package:mp_chart/mp/core/utils/color_utils.dart';
-import 'package:example/demo/util.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 PopupMenuItem item(String text, String id) {
   return PopupMenuItem<String>(
@@ -72,29 +70,6 @@ abstract class ActionState<T extends StatefulWidget> extends State<T> {
   String getTitle();
 
   PopupMenuItemBuilder<String> getBuilder();
-
-  void captureImg(CaptureCallback callback) {
-    PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage)
-        .then((permission) {
-      if (permission.value != PermissionStatus.granted.value) {
-        PermissionHandler()
-            .requestPermissions([PermissionGroup.storage]).then((permissions) {
-          if (permissions.containsKey(PermissionGroup.storage)) {
-            if (permissions[PermissionGroup.storage] ==
-                    PermissionStatus.granted ||
-                ((permissions[PermissionGroup.storage] ==
-                        PermissionStatus.unknown) &&
-                    Platform.isIOS)) {
-              callback();
-            }
-          }
-        });
-      } else {
-        callback();
-      }
-    });
-  }
 }
 
 typedef CaptureCallback = void Function();
@@ -134,7 +109,6 @@ abstract class LineActionState<T extends StatefulWidget>
           item('Animate X', 'L'),
           item('Animate Y', 'M'),
           item('Animate XY', 'N'),
-          item('Save to Gallery', 'O'),
         ];
   }
 
@@ -250,11 +224,6 @@ abstract class LineActionState<T extends StatefulWidget>
           ..reset()
           ..animateXY1(2000, 2000);
         break;
-      case 'O':
-        captureImg(() {
-          controller.state.capture();
-        });
-        break;
     }
   }
 }
@@ -338,11 +307,6 @@ abstract class BarActionState<T extends StatefulWidget> extends ActionState<T> {
           ..reset()
           ..animateXY1(2000, 2000);
         break;
-      case 'K':
-        captureImg(() {
-          controller.state.capture();
-        });
-        break;
     }
   }
 }
@@ -364,7 +328,6 @@ abstract class HorizontalBarActionState<T extends StatefulWidget>
           item('Animate X', 'H'),
           item('Animate Y', 'I'),
           item('Animate XY', 'J'),
-          item('Save to Gallery', 'K'),
         ];
   }
 
@@ -427,11 +390,6 @@ abstract class HorizontalBarActionState<T extends StatefulWidget>
           ..reset()
           ..animateXY1(2000, 2000);
         break;
-      case 'K':
-        captureImg(() {
-          controller.state.capture();
-        });
-        break;
     }
   }
 }
@@ -455,7 +413,6 @@ abstract class PieActionState<T extends StatefulWidget> extends ActionState<T> {
           item('Animate X', 'K'),
           item('Animate Y', 'L'),
           item('Animate XY', 'M'),
-          item('Save to Gallery', 'N'),
         ];
   }
 
@@ -534,11 +491,6 @@ abstract class PieActionState<T extends StatefulWidget> extends ActionState<T> {
         controller.animator
           ..reset()
           ..animateXY1(1400, 1400);
-        break;
-      case 'N':
-        captureImg(() {
-          controller.state.capture();
-        });
         break;
     }
   }
@@ -619,7 +571,6 @@ abstract class ScatterActionState<T extends StatefulWidget>
           item('Animate XY', 'G'),
           item('Toggle PinchZoom', 'H'),
           item('Toggle Auto Scale', 'I'),
-          item('Save to Gallery', 'J'),
         ];
   }
 
@@ -676,11 +627,6 @@ abstract class ScatterActionState<T extends StatefulWidget>
         controller.autoScaleMinMaxEnabled = !controller.autoScaleMinMaxEnabled;
         controller.state.setStateIfNotDispose();
         break;
-      case 'J':
-        captureImg(() {
-          controller.state.capture();
-        });
-        break;
     }
   }
 }
@@ -701,7 +647,6 @@ abstract class BubbleActionState<T extends StatefulWidget>
           item('Animate X', 'E'),
           item('Animate Y', 'F'),
           item('Animate XY', 'G'),
-          item('Save to Gallery', 'J'),
         ];
   }
 
@@ -754,11 +699,6 @@ abstract class BubbleActionState<T extends StatefulWidget>
       case 'I':
         controller.autoScaleMinMaxEnabled = !controller.autoScaleMinMaxEnabled;
         controller.state.setStateIfNotDispose();
-        break;
-      case 'J':
-        captureImg(() {
-          controller.state.capture();
-        });
         break;
     }
   }
@@ -781,7 +721,6 @@ abstract class CandlestickActionState<T extends StatefulWidget>
           item('Animate X', 'E'),
           item('Animate Y', 'F'),
           item('Animate XY', 'G'),
-          item('Save to Gallery', 'J'),
         ];
   }
 
@@ -834,11 +773,6 @@ abstract class CandlestickActionState<T extends StatefulWidget>
       case 'I':
         controller.autoScaleMinMaxEnabled = !controller.autoScaleMinMaxEnabled;
         controller.state.setStateIfNotDispose();
-        break;
-      case 'J':
-        captureImg(() {
-          controller.state.capture();
-        });
         break;
       case 'K':
         for (ICandleDataSet set in controller.data.dataSets) {
@@ -871,7 +805,6 @@ abstract class RadarActionState<T extends StatefulWidget>
           item('Animate X', 'K'),
           item('Animate Y', 'L'),
           item('Animate XY', 'M'),
-          item('Save to Gallery', 'N'),
         ];
   }
 
@@ -952,11 +885,6 @@ abstract class RadarActionState<T extends StatefulWidget>
         controller.animator
           ..reset()
           ..animateXY1(1400, 1400);
-        break;
-      case 'N':
-        captureImg(() {
-          controller.state.capture();
-        });
         break;
     }
   }
